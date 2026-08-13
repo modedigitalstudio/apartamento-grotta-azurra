@@ -131,17 +131,24 @@ p{margin:0}
 .hero-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:1.5rem 2.5rem;margin-top:1.4rem}
 .hero-row .lead{font-size:1.1rem;max-width:52ch}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem}
-.collage{display:grid;grid-template-columns:6.5fr 5.5fr;gap:clamp(10px,1.4vw,18px);align-items:end;margin-top:clamp(2rem,4.5vh,3.2rem)}
-.collage figure{margin:0;border-radius:var(--r-media);overflow:hidden;height:clamp(300px,42vh,450px)}
-.collage .c-mid{height:clamp(255px,35vh,380px)}
-.collage img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,1,.3,1)}
-@media (hover:hover){.collage figure:hover img{transform:scale(1.03)}}
+.slider{position:relative;border-radius:var(--r-media);overflow:hidden;margin-top:clamp(2rem,4.5vh,3.2rem);height:clamp(340px,52vh,560px);background:var(--surface);outline:none}
+.slider:focus-visible{box-shadow:0 0 0 3px var(--accent-soft),0 0 0 1.5px var(--accent)}
+.slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.slides img{width:100%;height:100%;object-fit:cover;flex:0 0 100%}
+@media (prefers-reduced-motion: reduce){.slides{transition:none}}
+.sl-btn{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;border:none;cursor:pointer;background:rgba(255,255,255,.92);color:#17202a;font-size:1.35rem;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.18);transition:background .2s,transform .2s}
+.sl-btn:hover{background:#fff}
+.sl-btn:active{transform:translateY(-50%) scale(.94)}
+.sl-prev{left:1rem}
+.sl-next{right:1rem}
+.sl-count{position:absolute;right:1rem;bottom:1rem;background:rgba(15,20,26,.72);color:#fff;font-size:.85rem;padding:.3rem .75rem;border-radius:999px;font-variant-numeric:tabular-nums}
 @media (max-width:900px){
   .hero h1{max-width:none}
   .hero-row{grid-template-columns:1fr}
-  .collage{grid-template-columns:1fr;align-items:stretch;gap:10px}
-  .collage figure{height:52vw}
-  .collage .c-mid{height:44vw}
+  .slider{height:62vw}
+  .sl-btn{width:40px;height:40px}
+  .sl-prev{left:.6rem}
+  .sl-next{right:.6rem}
 }
 
 /* ===== Spec band ===== */
@@ -197,19 +204,18 @@ p{margin:0}
 .chip{border:1px solid var(--line);border-radius:999px;padding:.42rem 1rem;font-size:.92rem;color:var(--muted)}
 
 /* ===== Neighborhood ===== */
-.hood{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.6rem,3vw,3rem);margin-top:2.6rem;align-items:stretch}
-.map{border-radius:var(--r-media);overflow:hidden;border:1px solid var(--line);min-height:420px}
-.map iframe{display:block;width:100%;height:100%;min-height:420px;border:0}
-.poi{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,2.5vw,2.2rem) clamp(1.6rem,3vw,2.8rem);align-content:start}
+.hood{display:flex;flex-direction:column;gap:clamp(2rem,3.5vw,3rem);margin-top:2.6rem}
+.map{border-radius:var(--r-media);overflow:hidden;border:1px solid var(--line)}
+.map iframe{display:block;width:100%;height:460px;border:0}
+.poi{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,2.5vw,2.2rem) clamp(1.6rem,3vw,2.8rem);align-content:start}
 .poi-group h3{font-size:1rem;color:var(--accent);margin-bottom:.6rem;letter-spacing:0}
 .poi-group ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
 .poi-group li{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;color:var(--muted);font-size:.97rem}
 .poi-group li span{min-width:0}
 .poi-group li em{font-style:normal;font-size:.88rem;color:var(--ink);opacity:.75;white-space:nowrap;font-variant-numeric:tabular-nums}
 @media (max-width:900px){
-  .hood{grid-template-columns:1fr}
-  .map{order:2;min-height:340px}
-  .map iframe{min-height:340px}
+  .poi{grid-template-columns:1fr 1fr}
+  .map iframe{height:340px}
 }
 @media (max-width:520px){.poi{grid-template-columns:1fr}}
 
@@ -272,9 +278,20 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
         </a>
       </div>
     </div>
-    <div class="collage">
-      <figure class="rv" style="--d:.1s"><img src="assets/photos/full/DSC0489.jpg" alt="Varanda envidraçada com vista verde, integrada à sala" width="1600" height="1067" fetchpriority="high"></figure>
-      <figure class="rv c-mid" style="--d:.22s"><img src="assets/photos/full/DSC0476.jpg" alt="Sala de estar com janelas panorâmicas" width="1600" height="1067"></figure>
+    <div class="slider rv" style="--d:.1s" id="slider" tabindex="0" aria-roledescription="carrossel" aria-label="Fotos do apartamento">
+      <div class="slides" id="slidesTrack">
+        <img src="assets/photos/full/DSC0489.jpg" alt="Varanda envidraçada com vista verde, integrada à sala" width="1600" height="1067" fetchpriority="high">
+        <img src="assets/photos/full/DSC0476.jpg" alt="Sala de estar com janelas panorâmicas" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/full/DSC0481.jpg" alt="Sala de jantar integrada" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/full/DSC0492.jpg" alt="Suíte principal com armários planejados" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/full/DSC0500.jpg" alt="Segunda suíte com armários planejados" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/full/DSC0542.jpg" alt="Cozinha com armários planejados" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/full/DSC0511.jpg" alt="Banheiro da suíte com bancada em granito" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/full/e7.jpg" alt="Piscina do condomínio" width="1600" height="1067" loading="lazy">
+      </div>
+      <button class="sl-btn sl-prev" id="slPrev" aria-label="Foto anterior">‹</button>
+      <button class="sl-btn sl-next" id="slNext" aria-label="Próxima foto">›</button>
+      <div class="sl-count" id="slCount">1/8</div>
     </div>
   </div>
 </header>
@@ -375,9 +392,6 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
     <h2 class="rv">Um bairro calmo, verde e bem servido</h2>
     <p class="lead rv" style="--d:.08s">O Jardim Londrina é arborizado e cheio de praças, com o dia a dia resolvido a pé. Alguns vizinhos que fazem diferença, com as notas do Google Maps:</p>
     <div class="hood">
-      <div class="map rv">
-        <iframe title="Mapa do Condomínio Grotta Azurra, Av. Dr. Guilherme Dumont Vilares, 601, Jardim Londrina" src="https://maps.google.com/maps?q=Condom%C3%ADnio%20Grotta%20Azurra%2C%20Av.%20Dr.%20Guilherme%20Dumont%20Vilares%2C%20601%2C%20S%C3%A3o%20Paulo&amp;z=15&amp;output=embed" loading="lazy"></iframe>
-      </div>
       <div class="poi">
         <div class="poi-group rv">
           <h3>Lazer e mobilidade</h3>
@@ -390,23 +404,23 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
           <h3>Academias</h3>
           <ul>
             <li><span>Kainágua, vizinha do prédio</span><em>4,3 ★</em></li>
-            <li><span>Allp Fit Morumbi</span><em>4,7 ★</em></li>
-            <li><span>Bio Ritmo Morumbi</span><em>4,5 ★</em></li>
+            <li><span>BlueFit Portal do Morumbi, na mesma avenida</span><em>4,0 ★</em></li>
+            <li><span>Fort Academia</span><em>4,6 ★</em></li>
           </ul>
         </div>
         <div class="poi-group rv" style="--d:.12s">
           <h3>Escolas</h3>
           <ul>
-            <li><span>Colégio Santo Américo</span><em>4,5 ★</em></li>
+            <li><span>Colégio Querubin's, educação infantil</span><em>4,8 ★</em></li>
             <li><span>Escola Nossa Senhora do Morumbi</span></li>
-            <li><span>Colégio Gibran</span></li>
+            <li><span>EMEF Prof. Alípio Correa Neto</span></li>
           </ul>
         </div>
         <div class="poi-group rv" style="--d:.18s">
           <h3>Mercados</h3>
           <ul>
-            <li><span>Mambo Giovanni Gronchi</span><em>4,4 ★</em></li>
-            <li><span>Supermercado Tok Leve</span><em>4,2 ★</em></li>
+            <li><span>Carrefour Bairro Morumbi, na mesma avenida</span><em>4,1 ★</em></li>
+            <li><span>Pão de Açúcar</span><em>4,2 ★</em></li>
             <li><span>Assaí Atacadista Vila Sônia</span></li>
           </ul>
         </div>
@@ -418,6 +432,9 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
             <li><span>Hospital Infantil Darcy Vargas</span></li>
           </ul>
         </div>
+      </div>
+      <div class="map rv">
+        <iframe title="Mapa do Condomínio Grotta Azurra, Av. Dr. Guilherme Dumont Vilares, 601, Jardim Londrina" src="https://maps.google.com/maps?q=Condom%C3%ADnio%20Grotta%20Azurra%2C%20Av.%20Dr.%20Guilherme%20Dumont%20Vilares%2C%20601%2C%20S%C3%A3o%20Paulo&amp;z=15&amp;output=embed" loading="lazy"></iframe>
       </div>
     </div>
   </div>
@@ -505,6 +522,33 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
   links.forEach(function(a, i){
     a.addEventListener("click", function(ev){ ev.preventDefault(); open(i); });
   });
+
+  // Hero slider
+  var track = document.getElementById("slidesTrack");
+  if (track) {
+    var total = track.children.length;
+    var idx = 0;
+    var slCount = document.getElementById("slCount");
+    var go = function(i){
+      idx = (i + total) % total;
+      track.style.transform = "translateX(-" + (idx * 100) + "%)";
+      slCount.textContent = (idx + 1) + "/" + total;
+    };
+    document.getElementById("slPrev").addEventListener("click", function(){ go(idx - 1); });
+    document.getElementById("slNext").addEventListener("click", function(){ go(idx + 1); });
+    var sx = null;
+    track.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener("touchend", function(e){
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+      sx = null;
+    }, { passive: true });
+    document.getElementById("slider").addEventListener("keydown", function(e){
+      if (e.key === "ArrowLeft") go(idx - 1);
+      if (e.key === "ArrowRight") go(idx + 1);
+    });
+  }
   document.getElementById("lbClose").addEventListener("click", close);
   document.getElementById("lbPrev").addEventListener("click", function(){ show(current - 1); });
   document.getElementById("lbNext").addEventListener("click", function(){ show(current + 1); });
