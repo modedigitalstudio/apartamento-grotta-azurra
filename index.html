@@ -131,18 +131,17 @@ p{margin:0}
 .hero-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:1.5rem 2.5rem;margin-top:1.4rem}
 .hero-row .lead{font-size:1.1rem;max-width:52ch}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem}
-.collage{display:grid;grid-template-columns:6fr 3.2fr 2.8fr;gap:clamp(10px,1.4vw,18px);align-items:end;margin-top:clamp(2rem,4.5vh,3.2rem)}
-.collage figure{margin:0;border-radius:var(--r-media);overflow:hidden;height:clamp(340px,52vh,560px)}
-.collage .c-mid{height:clamp(295px,45vh,485px)}
-.collage .c-end{height:clamp(250px,38vh,410px)}
+.collage{display:grid;grid-template-columns:6.5fr 5.5fr;gap:clamp(10px,1.4vw,18px);align-items:end;margin-top:clamp(2rem,4.5vh,3.2rem)}
+.collage figure{margin:0;border-radius:var(--r-media);overflow:hidden;height:clamp(300px,42vh,450px)}
+.collage .c-mid{height:clamp(255px,35vh,380px)}
 .collage img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,1,.3,1)}
 @media (hover:hover){.collage figure:hover img{transform:scale(1.03)}}
 @media (max-width:900px){
   .hero h1{max-width:none}
   .hero-row{grid-template-columns:1fr}
-  .collage{grid-template-columns:1fr 1fr;align-items:stretch;gap:10px}
-  .collage figure{grid-column:span 2;height:54vw}
-  .collage .c-mid,.collage .c-end{grid-column:span 1;height:38vw}
+  .collage{grid-template-columns:1fr;align-items:stretch;gap:10px}
+  .collage figure{height:52vw}
+  .collage .c-mid{height:44vw}
 }
 
 /* ===== Spec band ===== */
@@ -276,7 +275,6 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
     <div class="collage">
       <figure class="rv" style="--d:.1s"><img src="assets/photos/full/DSC0489.jpg" alt="Varanda envidraçada com vista verde, integrada à sala" width="1600" height="1067" fetchpriority="high"></figure>
       <figure class="rv c-mid" style="--d:.22s"><img src="assets/photos/full/DSC0476.jpg" alt="Sala de estar com janelas panorâmicas" width="1600" height="1067"></figure>
-      <figure class="rv c-end" style="--d:.34s"><img src="assets/photos/full/DSC0481.jpg" alt="Sala de jantar integrada" width="1600" height="1067"></figure>
     </div>
   </div>
 </header>
@@ -297,7 +295,7 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
     <div class="gal rv" style="--d:.14s" id="galeria">
       <a href="assets/photos/full/DSC0477.jpg" class="g-2x2" data-cap="Sala de estar com iluminação embutida"><img src="assets/photos/thumb/DSC0477.jpg" alt="Sala de estar com iluminação embutida" loading="lazy" width="800" height="533"></a>
       <a href="assets/photos/full/DSC0492.jpg" data-cap="Suíte principal com armários planejados"><img src="assets/photos/thumb/DSC0492.jpg" alt="Suíte principal com armários planejados" loading="lazy" width="800" height="533"></a>
-      <a href="assets/photos/full/DSC0493.jpg" data-cap="Suíte principal, outro ângulo"><img src="assets/photos/thumb/DSC0493.jpg" alt="Suíte principal vista de outro ângulo" loading="lazy" width="800" height="533"></a>
+      <a href="assets/photos/full/DSC0481.jpg" data-cap="Sala de jantar integrada"><img src="assets/photos/thumb/DSC0481.jpg" alt="Sala de jantar integrada" loading="lazy" width="800" height="533"></a>
       <a href="assets/photos/full/DSC0508.jpg" data-cap="Banheiro da suíte com banheira"><img src="assets/photos/thumb/DSC0508.jpg" alt="Banheiro da suíte com banheira" loading="lazy" width="533" height="800"></a>
       <a href="assets/photos/full/DSC0486.jpg" data-cap="Vista verde a partir da varanda"><img src="assets/photos/thumb/DSC0486.jpg" alt="Vista verde a partir da varanda" loading="lazy" width="800" height="533"></a>
       <a href="assets/photos/full/DSC0500.jpg" data-cap="Segunda suíte com armários planejados"><img src="assets/photos/thumb/DSC0500.jpg" alt="Segunda suíte com armários planejados" loading="lazy" width="800" height="533"></a>
