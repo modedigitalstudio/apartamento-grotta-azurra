@@ -133,22 +133,29 @@ p{margin:0}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem}
 .slider{position:relative;border-radius:var(--r-media);overflow:hidden;margin-top:clamp(2rem,4.5vh,3.2rem);height:clamp(340px,52vh,560px);background:var(--surface);outline:none}
 .slider:focus-visible{box-shadow:0 0 0 3px var(--accent-soft),0 0 0 1.5px var(--accent)}
-.slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1)}
-.slides img{width:100%;height:100%;object-fit:cover;flex:0 0 100%}
+.slides{display:flex;gap:8px;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.slides img{width:100%;height:100%;min-width:0;object-fit:cover;flex:0 0 calc(50% - 4px);cursor:zoom-in}
 @media (prefers-reduced-motion: reduce){.slides{transition:none}}
+.sl-actions{position:absolute;right:1rem;bottom:1rem;display:flex;gap:.6rem}
+.sl-chip{display:inline-flex;align-items:center;background:rgba(255,255,255,.95);color:#17202a;border:none;border-radius:999px;padding:.55rem 1.15rem;font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);transition:background .2s,transform .2s}
+.sl-chip:hover{background:#fff;transform:translateY(-1px)}
+.sl-chip:active{transform:scale(.97)}
+.sl-chip[hidden]{display:none}
 .sl-btn{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;border:none;cursor:pointer;background:rgba(255,255,255,.92);color:#17202a;font-size:1.35rem;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.18);transition:background .2s,transform .2s}
 .sl-btn:hover{background:#fff}
 .sl-btn:active{transform:translateY(-50%) scale(.94)}
 .sl-prev{left:1rem}
 .sl-next{right:1rem}
-.sl-count{position:absolute;right:1rem;bottom:1rem;background:rgba(15,20,26,.72);color:#fff;font-size:.85rem;padding:.3rem .75rem;border-radius:999px;font-variant-numeric:tabular-nums}
+.sl-count{position:absolute;left:1rem;bottom:1rem;background:rgba(15,20,26,.72);color:#fff;font-size:.85rem;padding:.3rem .75rem;border-radius:999px;font-variant-numeric:tabular-nums}
 @media (max-width:900px){
   .hero h1{max-width:none}
   .hero-row{grid-template-columns:1fr}
   .slider{height:62vw}
+  .slides img{flex-basis:100%}
   .sl-btn{width:40px;height:40px}
   .sl-prev{left:.6rem}
   .sl-next{right:.6rem}
+  .sl-chip{padding:.5rem .9rem;font-size:.85rem}
 }
 
 /* ===== Spec band ===== */
@@ -236,7 +243,7 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
 /* ===== Lightbox ===== */
 .lb{position:fixed;inset:0;z-index:60;background:rgba(9,13,18,.94);display:none;align-items:center;justify-content:center}
 .lb.open{display:flex}
-.lb img{max-width:min(92vw,1300px);max-height:82vh;object-fit:contain;border-radius:8px}
+.lb img,.lb video{max-width:min(92vw,1300px);max-height:82vh;object-fit:contain;border-radius:8px}
 .lb-cap{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);font-size:.98rem;width:max-content;max-width:86vw;text-align:center}
 .lb button{
   position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
@@ -280,18 +287,36 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
     </div>
     <div class="slider rv" style="--d:.1s" id="slider" tabindex="0" aria-roledescription="carrossel" aria-label="Fotos do apartamento">
       <div class="slides" id="slidesTrack">
-        <img src="assets/photos/full/DSC0489.jpg" alt="Varanda envidraçada com vista verde, integrada à sala" width="1600" height="1067" fetchpriority="high">
-        <img src="assets/photos/full/DSC0476.jpg" alt="Sala de estar com janelas panorâmicas" width="1600" height="1067" loading="lazy">
-        <img src="assets/photos/full/DSC0481.jpg" alt="Sala de jantar integrada" width="1600" height="1067" loading="lazy">
-        <img src="assets/photos/full/DSC0492.jpg" alt="Suíte principal com armários planejados" width="1600" height="1067" loading="lazy">
-        <img src="assets/photos/full/DSC0500.jpg" alt="Segunda suíte com armários planejados" width="1600" height="1067" loading="lazy">
-        <img src="assets/photos/full/DSC0542.jpg" alt="Cozinha com armários planejados" width="1600" height="1067" loading="lazy">
-        <img src="assets/photos/full/DSC0511.jpg" alt="Banheiro da suíte com bancada em granito" width="1600" height="1067" loading="lazy">
-        <img src="assets/photos/full/e7.jpg" alt="Piscina do condomínio" width="1600" height="1067" loading="lazy">
+        <img src="assets/photos/thumb/DSC0489.jpg" data-full="assets/photos/full/DSC0489.jpg" alt="Varanda envidraçada integrada à sala" width="800" height="533" fetchpriority="high">
+        <img src="assets/photos/thumb/DSC0476.jpg" data-full="assets/photos/full/DSC0476.jpg" alt="Sala de estar com janelas panorâmicas" width="800" height="533">
+        <img src="assets/photos/thumb/DSC0477.jpg" data-full="assets/photos/full/DSC0477.jpg" alt="Sala de estar com iluminação embutida" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0481.jpg" data-full="assets/photos/full/DSC0481.jpg" alt="Sala de jantar integrada" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0486.jpg" data-full="assets/photos/full/DSC0486.jpg" alt="Vista verde a partir da varanda" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0492.jpg" data-full="assets/photos/full/DSC0492.jpg" alt="Suíte principal com armários planejados" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0493.jpg" data-full="assets/photos/full/DSC0493.jpg" alt="Suíte principal, outro ângulo" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0500.jpg" data-full="assets/photos/full/DSC0500.jpg" alt="Segunda suíte com armários planejados" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0502.jpg" data-full="assets/photos/full/DSC0502.jpg" alt="Terceira suíte" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0505.jpg" data-full="assets/photos/full/DSC0505.jpg" alt="Quarto de TV, ideal como home office" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0508.jpg" data-full="assets/photos/full/DSC0508.jpg" alt="Banheiro da suíte com banheira" width="533" height="800" loading="lazy">
+        <img src="assets/photos/thumb/DSC0511.jpg" data-full="assets/photos/full/DSC0511.jpg" alt="Banheiro da suíte com bancada em granito" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0542.jpg" data-full="assets/photos/full/DSC0542.jpg" alt="Cozinha com armários planejados" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0543.jpg" data-full="assets/photos/full/DSC0543.jpg" alt="Cozinha, bancadas em granito" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0548.jpg" data-full="assets/photos/full/DSC0548.jpg" alt="Área de serviço com despensa" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/DSC0490.jpg" data-full="assets/photos/full/DSC0490.jpg" alt="Vista livre do 11° andar" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/e7.jpg" data-full="assets/photos/full/e7.jpg" alt="Piscina aquecida do condomínio" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/e3.jpg" data-full="assets/photos/full/e3.jpg" alt="Academia do condomínio" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/e4.jpg" data-full="assets/photos/full/e4.jpg" alt="Churrasqueira e área verde" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/e6.jpg" data-full="assets/photos/full/e6.jpg" alt="Espaço infantil" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/e2.jpg" data-full="assets/photos/full/e2.jpg" alt="Salão de festas" width="800" height="533" loading="lazy">
+        <img src="assets/photos/thumb/e8.jpg" data-full="assets/photos/full/e8.jpg" alt="Entrada arborizada do condomínio" width="800" height="533" loading="lazy">
       </div>
-      <button class="sl-btn sl-prev" id="slPrev" aria-label="Foto anterior">‹</button>
-      <button class="sl-btn sl-next" id="slNext" aria-label="Próxima foto">›</button>
-      <div class="sl-count" id="slCount">1/8</div>
+      <button class="sl-btn sl-prev" id="slPrev" aria-label="Fotos anteriores">‹</button>
+      <button class="sl-btn sl-next" id="slNext" aria-label="Próximas fotos">›</button>
+      <div class="sl-count" id="slCount">1/22</div>
+      <div class="sl-actions">
+        <button class="sl-chip" id="videoBtn" hidden>Vídeo</button>
+        <button class="sl-chip" id="allPhotosBtn">Ver todas as fotos</button>
+      </div>
     </div>
   </div>
 </header>
@@ -464,6 +489,7 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
   <button class="lb-close" id="lbClose" aria-label="Fechar">✕</button>
   <button class="lb-prev" id="lbPrev" aria-label="Foto anterior">‹</button>
   <img id="lbImg" src="" alt="">
+  <video id="lbVid" hidden controls playsinline></video>
   <button class="lb-next" id="lbNext" aria-label="Próxima foto">›</button>
   <div class="lb-cap" id="lbCap"></div>
 </div>
@@ -485,80 +511,125 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
     els.forEach(function(el){ io.observe(el); });
   }
 
-  // Lightbox
-  var links = Array.prototype.slice.call(document.querySelectorAll("#galeria a"));
+  // Mídia: slider no estilo QuintoAndar + galeria em tela cheia
+  var VIDEO_URL = ""; // cole aqui o link do vídeo (.mp4 ou YouTube) para ativar o botão "Vídeo"
+
+  var track = document.getElementById("slidesTrack");
+  var slideImgs = Array.prototype.slice.call(track.children);
+  var total = slideImgs.length;
+  var items = slideImgs.map(function(img){
+    return { full: img.getAttribute("data-full"), cap: img.getAttribute("alt") };
+  });
+
   var lb = document.getElementById("lb");
   var lbImg = document.getElementById("lbImg");
+  var lbVid = document.getElementById("lbVid");
   var lbCap = document.getElementById("lbCap");
   var current = 0;
   var lastFocus = null;
 
   function show(i){
-    current = (i + links.length) % links.length;
-    var a = links[current];
-    lbImg.src = a.getAttribute("href");
-    lbImg.alt = a.dataset.cap || "";
-    lbCap.textContent = a.dataset.cap || "";
-    // preload neighbors
-    [current+1, current-1].forEach(function(j){
-      var n = links[(j + links.length) % links.length];
-      var img = new Image(); img.src = n.getAttribute("href");
+    current = (i + total) % total;
+    lbVid.hidden = true;
+    if (lbVid.pause) lbVid.pause();
+    lbImg.hidden = false;
+    lbImg.src = items[current].full;
+    lbImg.alt = items[current].cap;
+    lbCap.textContent = (current + 1) + "/" + total + " · " + items[current].cap;
+    [current + 1, current - 1].forEach(function(j){
+      var img = new Image(); img.src = items[(j + total) % total].full;
     });
   }
-  function open(i){
+  function openLb(i){
     lastFocus = document.activeElement;
     show(i);
     lb.classList.add("open");
     document.body.style.overflow = "hidden";
     document.getElementById("lbClose").focus();
   }
-  function close(){
+  function closeLb(){
     lb.classList.remove("open");
     document.body.style.overflow = "";
     lbImg.src = "";
+    if (lbVid.pause) lbVid.pause();
+    lbVid.removeAttribute("src");
     if (lastFocus) lastFocus.focus();
   }
 
-  links.forEach(function(a, i){
-    a.addEventListener("click", function(ev){ ev.preventDefault(); open(i); });
-  });
-
-  // Hero slider
-  var track = document.getElementById("slidesTrack");
-  if (track) {
-    var total = track.children.length;
-    var idx = 0;
-    var slCount = document.getElementById("slCount");
-    var go = function(i){
-      idx = (i + total) % total;
-      track.style.transform = "translateX(-" + (idx * 100) + "%)";
-      slCount.textContent = (idx + 1) + "/" + total;
-    };
-    document.getElementById("slPrev").addEventListener("click", function(){ go(idx - 1); });
-    document.getElementById("slNext").addEventListener("click", function(){ go(idx + 1); });
-    var sx = null;
-    track.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener("touchend", function(e){
-      if (sx === null) return;
-      var dx = e.changedTouches[0].clientX - sx;
-      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
-      sx = null;
-    }, { passive: true });
-    document.getElementById("slider").addEventListener("keydown", function(e){
-      if (e.key === "ArrowLeft") go(idx - 1);
-      if (e.key === "ArrowRight") go(idx + 1);
-    });
-  }
-  document.getElementById("lbClose").addEventListener("click", close);
+  document.getElementById("lbClose").addEventListener("click", closeLb);
   document.getElementById("lbPrev").addEventListener("click", function(){ show(current - 1); });
   document.getElementById("lbNext").addEventListener("click", function(){ show(current + 1); });
-  lb.addEventListener("click", function(ev){ if (ev.target === lb) close(); });
+  lb.addEventListener("click", function(ev){ if (ev.target === lb) closeLb(); });
   document.addEventListener("keydown", function(ev){
     if (!lb.classList.contains("open")) return;
-    if (ev.key === "Escape") close();
+    if (ev.key === "Escape") closeLb();
     if (ev.key === "ArrowLeft") show(current - 1);
     if (ev.key === "ArrowRight") show(current + 1);
   });
+
+  // Cliques na galeria abrem a mesma tela cheia
+  Array.prototype.slice.call(document.querySelectorAll("#galeria a")).forEach(function(a){
+    a.addEventListener("click", function(ev){
+      ev.preventDefault();
+      var href = a.getAttribute("href");
+      var i = -1;
+      items.forEach(function(it, k){ if (it.full === href) i = k; });
+      openLb(i >= 0 ? i : 0);
+    });
+  });
+
+  // Slider: 2 fotos no desktop, 1 no celular
+  var idx = 0;
+  var slCount = document.getElementById("slCount");
+  var mq = window.matchMedia("(max-width:900px)");
+  function maxIdx(){ return mq.matches ? total - 1 : total - 2; }
+  function go(i){
+    var m = maxIdx();
+    idx = i < 0 ? m : (i > m ? 0 : i);
+    track.style.transform = mq.matches
+      ? "translateX(calc(" + idx + " * (-100% - 8px)))"
+      : "translateX(calc(" + idx + " * (-50% - 4px)))";
+    slCount.textContent = (idx + 1) + "/" + total;
+  }
+  document.getElementById("slPrev").addEventListener("click", function(){ go(idx - 1); });
+  document.getElementById("slNext").addEventListener("click", function(){ go(idx + 1); });
+  window.addEventListener("resize", function(){ go(Math.min(idx, maxIdx())); });
+  var sx = null;
+  track.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener("touchend", function(e){
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+    sx = null;
+  }, { passive: true });
+  document.getElementById("slider").addEventListener("keydown", function(e){
+    if (e.key === "ArrowLeft") go(idx - 1);
+    if (e.key === "ArrowRight") go(idx + 1);
+  });
+  slideImgs.forEach(function(img, i){
+    img.addEventListener("click", function(){ openLb(i); });
+  });
+
+  // Botões sobre o slider
+  document.getElementById("allPhotosBtn").addEventListener("click", function(){ openLb(idx); });
+  var videoBtn = document.getElementById("videoBtn");
+  if (VIDEO_URL) {
+    videoBtn.hidden = false;
+    videoBtn.addEventListener("click", function(){
+      if (/\.(mp4|webm)(\?|$)/i.test(VIDEO_URL)) {
+        lastFocus = document.activeElement;
+        lb.classList.add("open");
+        document.body.style.overflow = "hidden";
+        lbImg.hidden = true;
+        lbVid.hidden = false;
+        lbVid.src = VIDEO_URL;
+        lbCap.textContent = "Vídeo do apartamento";
+        lbVid.play();
+      } else {
+        window.open(VIDEO_URL, "_blank", "noopener");
+      }
+    });
+  }
 })();
 </script>
 </body>
