@@ -243,7 +243,9 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
 /* ===== Lightbox ===== */
 .lb{position:fixed;inset:0;z-index:60;background:rgba(9,13,18,.94);display:none;align-items:center;justify-content:center}
 .lb.open{display:flex}
-.lb img,.lb video{max-width:min(92vw,1300px);max-height:82vh;object-fit:contain;border-radius:8px}
+.lb img{max-width:min(92vw,1300px);max-height:82vh;object-fit:contain;border-radius:8px}
+.lb iframe{width:min(92vw,1200px);aspect-ratio:16/9;max-height:82vh;border:0;border-radius:8px;background:#000}
+.lb iframe[hidden]{display:none}
 .lb-cap{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);font-size:.98rem;width:max-content;max-width:86vw;text-align:center}
 .lb button{
   position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
@@ -489,7 +491,7 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
   <button class="lb-close" id="lbClose" aria-label="Fechar">✕</button>
   <button class="lb-prev" id="lbPrev" aria-label="Foto anterior">‹</button>
   <img id="lbImg" src="" alt="">
-  <video id="lbVid" hidden controls playsinline></video>
+  <iframe id="lbFrame" hidden title="Vídeo do apartamento" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
   <button class="lb-next" id="lbNext" aria-label="Próxima foto">›</button>
   <div class="lb-cap" id="lbCap"></div>
 </div>
@@ -512,7 +514,7 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
   }
 
   // Mídia: slider no estilo QuintoAndar + galeria em tela cheia
-  var VIDEO_URL = ""; // cole aqui o link do vídeo (.mp4 ou YouTube) para ativar o botão "Vídeo"
+  var VIDEO_EMBED = "https://player.vimeo.com/video/1078842514?h=dc3152743b";
 
   var track = document.getElementById("slidesTrack");
   var slideImgs = Array.prototype.slice.call(track.children);
@@ -523,15 +525,15 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
 
   var lb = document.getElementById("lb");
   var lbImg = document.getElementById("lbImg");
-  var lbVid = document.getElementById("lbVid");
+  var lbFrame = document.getElementById("lbFrame");
   var lbCap = document.getElementById("lbCap");
   var current = 0;
   var lastFocus = null;
 
   function show(i){
     current = (i + total) % total;
-    lbVid.hidden = true;
-    if (lbVid.pause) lbVid.pause();
+    lbFrame.hidden = true;
+    lbFrame.removeAttribute("src");
     lbImg.hidden = false;
     lbImg.src = items[current].full;
     lbImg.alt = items[current].cap;
@@ -551,8 +553,8 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
     lb.classList.remove("open");
     document.body.style.overflow = "";
     lbImg.src = "";
-    if (lbVid.pause) lbVid.pause();
-    lbVid.removeAttribute("src");
+    lbFrame.hidden = true;
+    lbFrame.removeAttribute("src");
     if (lastFocus) lastFocus.focus();
   }
 
@@ -613,23 +615,18 @@ footer{border-top:1px solid var(--line);padding-block:2.2rem;font-size:.95rem;co
   // Botões sobre o slider
   document.getElementById("allPhotosBtn").addEventListener("click", function(){ openLb(idx); });
   var videoBtn = document.getElementById("videoBtn");
-  if (VIDEO_URL) {
-    videoBtn.hidden = false;
-    videoBtn.addEventListener("click", function(){
-      if (/\.(mp4|webm)(\?|$)/i.test(VIDEO_URL)) {
-        lastFocus = document.activeElement;
-        lb.classList.add("open");
-        document.body.style.overflow = "hidden";
-        lbImg.hidden = true;
-        lbVid.hidden = false;
-        lbVid.src = VIDEO_URL;
-        lbCap.textContent = "Vídeo do apartamento";
-        lbVid.play();
-      } else {
-        window.open(VIDEO_URL, "_blank", "noopener");
-      }
-    });
-  }
+  videoBtn.hidden = false;
+  videoBtn.addEventListener("click", function(){
+    lastFocus = document.activeElement;
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+    lbImg.hidden = true;
+    lbImg.src = "";
+    lbFrame.src = VIDEO_EMBED + "&autoplay=1";
+    lbFrame.hidden = false;
+    lbCap.textContent = "Vídeo do apartamento";
+    document.getElementById("lbClose").focus();
+  });
 })();
 </script>
 </body>
